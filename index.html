@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yes or No Question</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #noBtn {
+            position: absolute;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Do you love me?</h1>
+
+    <!-- Yes and No Buttons -->
+    <button id="yesBtn" class="btn" onclick="submitAnswer('Yes')">Yes</button>
+    <button id="noBtn" class="btn" onmouseover="moveButton()">No</button>
+
+    <p id="answer"></p>
+
+    <script>
+        // Move "No" button randomly when hovered
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+
+        // Submit the answer and display it on the page
+        function submitAnswer(answer) {
+            document.getElementById('answer').textContent = `You clicked: ${answer}`;
+            // Here you could send the answer to your backend using fetch() or XMLHttpRequest
+            // Example: sendAnswerToServer(answer);
+        }
+
+        // Example function to send answer to a backend (use only if you have a server)
+        function sendAnswerToServer(answer) {
+            fetch('/submit-answer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ answer: answer }),
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                console.log('Success:', data);
+            }).catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+
+</body>
+</html>
